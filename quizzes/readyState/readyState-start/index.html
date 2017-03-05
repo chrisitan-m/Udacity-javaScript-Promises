@@ -37,23 +37,16 @@
              */
 
             return new Promise(function(resolve) {
-                console.log(this);
-
-                function stateCheck(state) {
-                    if (state !== 'loading') {
+                function stateCheck() {
+                    if (document.readyState !== 'loading') {
                         resolve();
                     }
-                    console.log(state);
                 }
-                document.addEventListener('readystatechange', stateCheck(document.readyState));
-                stateCheck(document.readyState);
+                document.addEventListener('readystatechange', stateCheck);
+                stateCheck();
             });
         };
 
-        /*
-        Don't forget to test your code!
-        Call wrapperResolved when the DOM is ready.
-         */
         ready().then(wrapperResolved);
 
         // Just here for your testing
