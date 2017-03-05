@@ -1,6 +1,15 @@
 .DS_Store
+<<<<<<< HEAD
 bower_components/
 node_modules/
 promises.json
 polymer-starter-kit-1.1.0/
+=======
+node_modules
+bower_components
+dist
+site
+.tmp
+.publish
+>>>>>>> 3d518b4beaa323395f2f87905b26e790555c5546
 TODO
