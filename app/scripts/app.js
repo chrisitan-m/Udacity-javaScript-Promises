@@ -51,6 +51,7 @@ Instructions:
                     // It failed :(
                     // Be nice and reject with req.statusText
                     reject(Error(req.statusText));
+                    // New change to check git hub
                 }
             };
 
