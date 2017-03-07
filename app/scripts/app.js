@@ -33,6 +33,18 @@ Instructions:
      * @return {Promise}    - A Promise that resolves when the XHR succeeds and fails otherwise.
      */
 
+    function getJSON(url) {
+
+        return new Promise(function(resolve, reject) {
+
+            JSON.parse(response).query;
+
+            get(url);
+            return json;
+        })
+    };
+
+
     function get(url) {
         /*
         This code needs to get wrapped in a Promise!
@@ -40,28 +52,43 @@ Instructions:
 
         return new Promise(function(resolve, reject) {
 
-            var req = new XMLHttpRequest();
-            req.open('GET', url);
-            req.onload = function() {
-                if (req.status === 200) {
-                    // It worked!
-                    // You'll want to resolve with the data from req.response
-                    resolve(req.response);
+            fetch(url, {
+                method: 'get'
+            }).then(function(response) {
+                if (response.status === 200) {
+                    console.log(response.json());
+                    resolve(response.json());
                 } else {
-                    // It failed :(
-                    // Be nice and reject with req.statusText
-                    reject(Error(req.statusText));
-                    // New change to check git hub
+                    reject(Error('Network Error: Reject - ' + url));
                 }
-            };
+            }).catch(function(err) {
+                reject(Error('Network Error: Caught - ' + url));
+                console.log(err.json());
+            });
 
-            req.onerror = function() {
-                // It failed :(
-                // Pass a 'Network Error' to reject
-                reject(Error('Network Error ' + url));
-            };
+            // var req = new XMLHttpRequest();
+            // req.open('GET', url);
+            // req.onload = function() {
+            //     if (req.status === 200) {
+            //         // It worked!
+            //         // You'll want to resolve with the data from req.response
+            //         resolve(req.response);
+            //     } else {
+            //         // It failed :(
+            //         // Be nice and reject with req.statusText
+            //         reject(Error(req.statusText));
+            //         // New change to check git hub
+            //     }
+            // };
 
-            req.send();
+            // req.onerror = function() {
+            //     // It failed :(
+            //     // Pass a 'Network Error' to reject
+            //     reject(Error('Network Error ' + url));
+            // };
+
+            // req.send();
+
         });
     }
 
@@ -72,7 +99,7 @@ Instructions:
         You'll need to add a .then and a .catch. Pass the response to addSearchHeader on resolve or
         pass 'unknown' to addSearchHeader if it rejects.
          */
-        get('../data/earth-like-results.json')
+        getJSON('../data/earth-like-results.json')
             .then(function(response) {
                 addSearchHeader(response);
             })
