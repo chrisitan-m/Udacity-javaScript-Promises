@@ -20,6 +20,7 @@ Instructions:
      * Helper function to show the search query.
      * @param {String} query - The search query.
      */
+
     function addSearchHeader(query) {
         home.innerHTML = '<h2 class="page-title">query: ' + query + '</h2>';
     }
@@ -32,6 +33,7 @@ Instructions:
         var pT = document.createElement('planet-thumb');
         for (var d in data) {
             pT[d] = data[d];
+            console.log('CM test: ' + pT[d]);
         }
         home.appendChild(pT);
     }
@@ -42,9 +44,7 @@ Instructions:
      * @return {Promise}    - A Promise that resolves when the XHR succeeds and fails otherwise.
      */
     function get(url) {
-        return fetch(url, {
-            method: 'get'
-        });
+        return fetch(url);
     }
 
     /**
@@ -65,6 +65,26 @@ Instructions:
 
         Your code goes here!
          */
-        // getJSON('../data/earth-like-results.json')
+
+        getJSON('../data/earth-like-results.json')
+            .then(function(response) {
+                addSearchHeader(response.query);
+                console.log(response);
+                // Showing the first thumbnail
+                return getJSON(response.results[0]);
+            })
+            .catch(function() {
+                throw Error('Search earth like results went wrong!');
+            })
+            .then(createPlanetThumb)
+            // .then(function(response) {
+            //     createPlanetThumb(response);
+            //     console.log(response);
+            // })
+            .catch(function(error) {
+                addSearchHeader('unknown');
+                console.log(error);
+            });
+
     });
 })(document);
